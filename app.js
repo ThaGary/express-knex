@@ -3,3 +3,7 @@ const app = express()
 const port = 3001
 
 app.listen(port)
+
+app.get('/', (req, res) => {
+    res.send('THE ROUTE WORKED!')
+})
