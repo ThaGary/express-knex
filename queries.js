@@ -5,14 +5,24 @@ module.exports = {
         return db('students')
     },
     getById(id){
-        return db('students').where({id: id}).first()
+        return db('students')
+            .where({id: id})
+            .first()
     },
     createStudent(newStudent) {
-        return db('students').insert(newStudent).returning('*')
+        return db('students')
+            .insert(newStudent)
+            .returning('*')
     },
     deleteStudent(id){
         return db('students')
-          .where('id', id)
-          .del()
-      }
+            .where({id: id})
+            .del()
+    },
+    updateStudent(id, updatedStudentInfo){
+        return db('students')
+            .where({id: id})
+            .update(updatedStudentInfo)
+            .returning('*')
+    }
 }

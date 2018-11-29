@@ -4,7 +4,7 @@ const port = process.env.PORT || 3001
 const queries = require('./queries')
 const config = require('./knexfile')
 const bodyParser = require('body-parser')
-var cors = require('cors')
+const cors = require('cors')
  
 app.use(cors())
 
@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.listen(port)
 
 app.get('/', (req, res) => {
-    queries.getAll()
+    queries.getAll().orderBy('id', 'asce')
     .then(response => res.send(response))
 })
 
@@ -27,7 +27,12 @@ app.post('/', (req,res) => {
     .then(students => res.send(students))
 })
 
-app.delete('/:id', (req, res) => {
+app.delete('/:id', (req, res, next) => {
     queries.deleteStudent(req.params.id)
     .then(res.sendStatus(204))
+})
+
+app.put('/:id', (req, res) => {
+    queries.updateStudent(req.params.id, req.body)
+    .then(updatedStudents => res.json(updatedStudents))
 })
